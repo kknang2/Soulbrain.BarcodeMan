@@ -1,0 +1,49 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.28307.106
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Soulbrain.BarcodeMan.Web", "Soulbrain.BarcodeMan.Web\Soulbrain.BarcodeMan.Web.csproj", "{A5A5C9A6-456E-46DB-8D6C-BA5A4AE13DA2}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Soulbrain.BarcodeMan.Core", "Soulbrain.BarcodeMan.Core\Soulbrain.BarcodeMan.Core.csproj", "{1598ECA8-9C3F-4A46-9A89-28C1960ACAA4}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Soulbrain.BarcodeMan.EntityFramework", "Soulbrain.BarcodeMan.EntityFramework\Soulbrain.BarcodeMan.EntityFramework.csproj", "{184A6866-2E78-4836-8C0B-DE521A753EC0}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Soulbrain.BarcodeMan.Test", "Soulbrain.BarcodeMan.Test\Soulbrain.BarcodeMan.Test.csproj", "{65209D98-0DF0-4E84-9370-88DCECE366F7}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Soulbrain.BarcodeMan.Resources", "Soulbrain.BarcodeMan.Resources\Soulbrain.BarcodeMan.Resources.csproj", "{4B7826FD-268B-4FB2-8C45-50CD978930B1}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{A5A5C9A6-456E-46DB-8D6C-BA5A4AE13DA2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A5A5C9A6-456E-46DB-8D6C-BA5A4AE13DA2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A5A5C9A6-456E-46DB-8D6C-BA5A4AE13DA2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A5A5C9A6-456E-46DB-8D6C-BA5A4AE13DA2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1598ECA8-9C3F-4A46-9A89-28C1960ACAA4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1598ECA8-9C3F-4A46-9A89-28C1960ACAA4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1598ECA8-9C3F-4A46-9A89-28C1960ACAA4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1598ECA8-9C3F-4A46-9A89-28C1960ACAA4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{184A6866-2E78-4836-8C0B-DE521A753EC0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{184A6866-2E78-4836-8C0B-DE521A753EC0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{184A6866-2E78-4836-8C0B-DE521A753EC0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{184A6866-2E78-4836-8C0B-DE521A753EC0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{65209D98-0DF0-4E84-9370-88DCECE366F7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{65209D98-0DF0-4E84-9370-88DCECE366F7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{65209D98-0DF0-4E84-9370-88DCECE366F7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{65209D98-0DF0-4E84-9370-88DCECE366F7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4B7826FD-268B-4FB2-8C45-50CD978930B1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4B7826FD-268B-4FB2-8C45-50CD978930B1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4B7826FD-268B-4FB2-8C45-50CD978930B1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4B7826FD-268B-4FB2-8C45-50CD978930B1}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {D284855A-9B29-45EF-99C6-625387FAAF53}
+	EndGlobalSection
+EndGlobal

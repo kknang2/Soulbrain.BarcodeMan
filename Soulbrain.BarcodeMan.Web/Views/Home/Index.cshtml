@@ -1,0 +1,128 @@
+﻿@{
+    ViewBag.Title = Message.Page_Home;
+}
+@model Soulbrain.BarcodeMan.Web.Models.Home.Dashboard
+<!-- 공지사항 //-->
+<div>
+    <div class="fs_tit" style="margin:20px -20px;">
+        <h4 class="tit_01">@Message.Page_Notice</h4>
+    </div>
+
+    <div class="data_grid_table">
+
+        <table class="data_grid board ">
+            <thead>
+                <colgroup>
+                    <col width="10%"></col>
+                    <col width="70%"></col>
+                    <col width="10%"></col>
+                    <col width="10%"></col>
+                </colgroup>
+                <tr>
+                    <th>@Message.WebNotice_Mark</th>
+                    <th>@Message.WebNotice_Title</th>
+                    <th>@Message.WebNotice_AttachFile</th>
+                    <th>@Message.WebNotice_CreatedDate</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model.WebNoticeList)
+                {
+                    <tr>
+                        @if (item.IsImportant)
+                        {
+                            <td class="color_red"><i class="fas fa-exclamation-circle"></i></td>
+                        }
+                        else
+                        {
+                            <td></td>
+                        }
+                        <td>
+                            <a href="@Url.Action("Detail", "Notice", new { plantCode = item.PlantCode, docCode = item.DocCode })">
+                                @item.Title
+                            </a>
+                        </td>
+                        <td>
+                            @if (item.HasAttachment)
+                            {
+                                <i class="fas fa-file-alt"></i>
+                            }
+                        </td>
+                        <td>@item.WriteDateString</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+
+    </div>
+</div>
+<!--// 공지사항 -->
+<!-- 게시판 //-->
+<div>
+    <div class="fs_tit" style="margin:20px -20px;">
+        <h4 class="tit_01">@Message.Page_TaskBoard</h4>
+    </div>
+
+    <div class="data_grid_table">
+
+        <table class="data_grid board ">
+            <thead>
+                <colgroup>
+                    <col width="5%"></col>
+                    <col width="5%"></col>
+                    <col width="5%"></col>
+                    <col width="50%"></col>
+                    <col width="10%"></col>
+                    <col width="10%"></col>
+                    <col width="10%"></col>
+                    <col width="5%"></col>
+                </colgroup>
+                <tr>
+                    <th>No</th>
+                    <th>@Message.WebBoard_Mark</th>
+                    <th>@Message.WebBoard_BoardID</th>
+                    <th>@Message.WebBoard_Title</th>
+                    <th>@Message.WebBoard_CreatedDate</th>
+                    <th>@Message.WebBoard_Creator</th>
+                    <th>@Message.WebBoard_AttachFile</th>
+                    <th>@Message.WebBoard_Comments</th>
+                </tr>
+            </thead>
+            <tbody>
+                @{ int index = 1; }
+                @foreach (var item in Model.WebBoardList)
+                {
+                    <tr>
+                        <td>@index</td>
+                        @if (item.IsImportant)
+                        {
+                            <td class="color_red"><i class="fas fa-exclamation-circle"></i></td>
+                        }
+                        else
+                        {
+                            <td></td>
+                        }
+                        <td></td>
+                        <td>
+                            <a href="@Url.Action("Detail", "Board", new { plantCode = item.PlantCode, docCode = item.DocCode })">
+                                @item.Title
+                            </a>
+                        </td>
+                        <td>@item.WriteDateString</td>
+                        <td>@item.WriteID</td>
+                        <td>
+                            @if (item.HasAttachment)
+                            {
+                                <i class="fas fa-file-alt"></i>
+                            }
+                        </td>
+                        <td>@item.Comments</td>
+                    </tr>
+                    index++;
+                }
+            </tbody>
+        </table>
+
+    </div>
+</div>
+<!--// 게시판 -->

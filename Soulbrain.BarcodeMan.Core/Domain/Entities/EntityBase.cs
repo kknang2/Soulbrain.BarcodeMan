@@ -1,0 +1,73 @@
+﻿namespace Soulbrain.BarcodeMan.Domain.Entities
+{
+    public abstract class EntityBase
+    {
+        public const int MaxAddressLen = 300;
+        public const int MaxAvailInventoryCodeLen = 10;
+        public const int MaxUnitCodeLen = 10;
+        public const int MaxBoardTypeLen = 10;
+        public const int MaxBossNameLen = 100;
+        public const int MaxCarTypeCodeLen = 10;
+        public const int MaxCommentLen = 1000;
+        public const int MaxContentsEngLen = 4000;
+        public const int MaxContentsKorLen = 4000;
+        public const int MaxCoreTypeLen = 1;
+        public const int MaxDocCodeLen = 20;
+        public const int MaxDrawingNoLen = 30;
+        public const int MaxEtcDescEngLen = 1000;
+        public const int MaxEtcDescKorLen = 1000;
+        public const int MaxEtcDescLen = 500;
+        public const int MaxExpDateCodeLen = 10;
+        public const int MaxFaxLen = 20;
+        public const int MaxFileGUIDLen = 4000;
+        public const int MaxFileNameLen = 4000;
+        public const int MaxInspectFaultInventoryCodeLen = 10;
+        public const int MaxInspectStandbyInventoryCodeLen = 10;
+        public const int MaxIPAddressLen = 15;
+        public const int MaxLotNoLen = 100;
+        public const int MaxMarketTypeLen = 1;
+        public const int MaxMaterialGroupCodeLen = 10;
+        public const int MaxMaterialGroupNameChLen = 100;
+        public const int MaxMaterialGroupNameEnLen = 100;
+        public const int MaxMaterialGroupNameLen = 100;
+        public const int MaxMaterialTypeCodeLen = 10;
+        public const int MaxMaterialTypeNameChLen = 100;
+        public const int MaxMaterialTypeNameEnLen = 100;
+        public const int MaxMaterialTypeNameLen = 100;
+        public const int MaxMeltingFurnaceCodeLen = 10;
+        public const int MaxMoldingEquipCodeLen = 10;
+        public const int MaxNoticeTypeLen = 10;
+        public const int MaxPersonDeptNameLen = 100;
+        public const int MaxPersonEtcDescLen = 1000;
+        public const int MaxPersonHpLen = 50;
+        public const int MaxPersonIDLen = 20;
+        public const int MaxPersonJobLen = 100;
+        public const int MaxPersonNameLen = 100;
+        public const int MaxPersonPositionLen = 100;
+        public const int MaxPersonPWLen = 100;
+        public const int MaxPlantCodeLen = 10;
+        public const int MaxPrintTypeLen = 10;
+        public const int MaxProdTypeCodeLen = 10;
+        public const int MaxProductCodeLen = 20;
+        public const int MaxProductNameChLen = 300;
+        public const int MaxProductNameEnLen = 300;
+        public const int MaxProductNameLen = 300;
+        public const int MaxProductQualityLen = 10;
+        public const int MaxRegNoLen = 100;
+        public const int MaxSecondNoLen = 30;
+        public const int MaxSpecLen = 300;
+        public const int MaxTelLen = 20;
+        public const int MaxTitleEngLen = 1000;
+        public const int MaxTitleKorLen = 1000;
+        public const int MaxUseFlagLen = 1;
+        public const int MaxVendorCodeLen = 10;
+        public const int MaxVendorNameChLen = 100;
+        public const int MaxVendorNameEnLen = 100;
+        public const int MaxVendorNameLen = 100;
+        public const int MaxWorkInStandbyInventoryCodeLen = 10;
+        public const int MaxInspectFlagLen = 1;
+        public const int MaxSerialUseFlagLen = 1;
+        public const int MaxDateLen = 10;
+        public const int MaxCompleteFlag = 1;
+    }
+}

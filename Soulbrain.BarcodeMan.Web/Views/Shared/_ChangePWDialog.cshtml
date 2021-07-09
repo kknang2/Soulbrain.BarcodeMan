@@ -1,0 +1,27 @@
+﻿<a href="#x" class="overlay" id="ChangePWDialog" title="@Message.Button_Close"></a>
+<div class="popup">
+    <div class="psw_tit">@Message.Page_ChangePassword</div>
+
+    <div class="content_page_top" style="padding:10px 50px;">
+        <form id="ChangePWForm" action="@Url.Action("ChangePW", "Account")">
+            <div>
+                <label>@Message.PW_CurrentPassword</label>
+                <input type="password" name="CurrentPassword" required/>
+            </div>
+            <div>
+                <label>@Message.PW_NewPassword</label>
+                <input type="password" name="NewPassword" id="NewPassword" required />
+            </div>
+            <div>
+                <label>@Message.PW_ConfirmPassword</label>
+                <input type="password" id="ConfirmPassword" />
+            </div>
+            <div>
+                <label></label>
+                <button type="submit" id="ChangePWButton" class="btn_line"><span>@Message.Page_ChangePassword</span></button>
+            </div>
+        </form>
+    </div>
+
+    <a class="close" href="#close"><span class="sr-only">@Message.Button_Close</span></a>
+</div>

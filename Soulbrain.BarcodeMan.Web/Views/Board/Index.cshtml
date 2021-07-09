@@ -1,0 +1,100 @@
+﻿@{
+    ViewBag.Title = Message.Page_TaskBoard;
+}
+@using PagedList.Mvc;
+@model Soulbrain.BarcodeMan.Web.Models.Board.BoardList
+
+<div class="content_page_top">
+    <div class="ctr_fs_wrap">
+        @using (Html.BeginForm("Index", "Board", FormMethod.Get, new { id = "SearchForm", @class = "board_tit" }))
+        {
+            <label style="padding: 0 20px">@Message.WebBoard_Title</label>
+            <input name="title" type="text" value="@Model.Filter.Title" />
+
+            <button class="btn_line" style="margin-left:50px;"><i class="fas fa-search"></i> @Message.Button_Search</button>
+
+            <input type="hidden" id="pg-size" name="size" value="@Model.Filter.PageSize" />
+        }
+    </div>
+</div>
+
+<div class="content_page bg_fff">
+    <table class="data_grid board mt10">
+        <thead>
+            <colgroup>
+                <col width="5%"></col>
+                <col width="5%"></col>
+                <col width="50%"></col>
+                <col width="10%"></col>
+                <col width="10%"></col>
+                <col width="10%"></col>
+                <col width="10%"></col>
+            </colgroup>
+            <tr>
+                <th>No</th>
+                <th>@Message.WebBoard_Mark</th>
+                <th>@Message.WebBoard_Title</th>
+                <th>@Message.WebBoard_CreatedDate</th>
+                <th>@Message.WebBoard_Creator</th>
+                <th>@Message.WebBoard_AttachFile</th>
+                <th>@Message.WebBoard_Comments</th>
+            </tr>
+        </thead>
+        <tbody>
+            @{ int index = 1; }
+            @foreach (var item in Model.WebBoardListItems)
+            {
+                <tr>
+                    <td>@(index + (Model.WebBoardListItems.PageNumber - 1) * Model.WebBoardListItems.PageSize)</td>
+                    @if (item.IsImportant)
+                    {
+                        <td class="color_red"><i class="fas fa-exclamation-circle"></i></td>
+                    }
+                    else
+                    {
+                        <td></td>
+                    }
+                    <td>
+                        <a href="@Url.Action("Detail", "Board", new { plantCode = item.PlantCode, docCode = item.DocCode })">
+                            @item.Title
+                        </a>
+                    </td>
+                    <td>@item.WriteDateString</td>
+                    <td>@item.WriteID</td>
+                    <td>
+                        @if (item.HasAttachment)
+                        {
+                            <i class="fas fa-file-alt"></i>
+                        }
+                    </td>
+                    <td>@item.Comments</td>
+                </tr>
+                index++;
+            }
+        </tbody>
+    </table>
+</div>
+<div class="clear"></div>
+<div class="button_wrap">
+    <label>@Message.Label_PageSize</label>
+    <select style="height:29px;width:80px;" id="pg-size-selector">
+        <option @(Model.Filter.PageSize.Equals(20) ? "selected" : "") value="20">20</option>
+        <option @(Model.Filter.PageSize.Equals(30) ? "selected" : "") value="30">30</option>
+        <option @(Model.Filter.PageSize.Equals(40) ? "selected" : "") value="40">40</option>
+    </select>
+</div>
+@Html.PagedListPager(Model.WebBoardListItems, page => Url.Action("Index", new {
+    page,
+    size = Model.Filter.PageSize,
+    title = Model.Filter.Title
+}))
+@section Scripts {
+    <script>
+        $(function () {
+            $('#pg-size-selector').on('change', function () {
+                $('#pg-size').val($(this).val());
+                $('#SearchForm').submit();
+            });
+        });
+    </script>
+}

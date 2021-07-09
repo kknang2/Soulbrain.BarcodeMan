@@ -1,0 +1,148 @@
+﻿@using Soulbrain.BarcodeMan.Helpers
+@{
+    var culture = System.Threading.Thread.CurrentThread.CurrentUICulture.Name.ToLowerInvariant();
+}
+@helper selected(string c, string culture)
+{
+    if (c == culture)
+    {
+        @:selected
+    }
+}
+<!doctype html>
+<html lang="@CultureHelper.GetCurrentNeutralCulture()" dir="@(CultureHelper.IsRighToLeft() ? "rtl" : "ltr")">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>soulbrain</title>
+
+    <!-- meta tag //-->
+    <meta name="viewport" content="width=device-width, initial-scale=0.5, maximum-scale=1.0" />
+    <meta charset="utf-8">
+    <meta name="robots" content="noindex,nofollow" />
+    <meta http-equiv='x-ua-compatible' content='ie=edge,chrome=1'>
+    <meta name="author" content="">
+    <meta name="description" content="">
+    <meta name="keywords" content="">
+    <meta name="robots" content="">
+    <meta property="og:type" content="">
+    <meta property="og:title" content="">
+    <meta property="og:description" content="">
+    <meta property="og:image" content="">
+    <meta property="og:url" content="">
+
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+    <link rel="shortcut icon" href="">
+
+    @Styles.Render("~/Content/themes/base/jqueryui")
+    @Styles.Render("~/assets/css/style")
+    @Scripts.Render("~/bundles/modernizr")
+</head>
+
+<body>
+    <header id="header_wrap">
+        <div class="header_top">
+            <h1><a href="@Url.Action("Index", "Home")"><img src="~/assets/img/common/logo.png" alt="soul brain" /></a></h1>
+            <div class="top_menu_wrap">
+                <ul class="top_menu">
+                    <li>
+                        @using (Html.BeginForm("SetCulture", "Home"))
+                        {
+                            <select id="culture" name="culture">
+                                <option value="ko-kr" @selected("ko-kr", culture)>KOR</option>
+                                <option value="en-us" @selected("en-us", culture)>ENG</option>
+                            </select>
+                            <input type="hidden" name="returnUrl" value="@Request.Url" />
+                        }
+                    </li>
+                    <li><a href="@Url.Action("Index", "Home")">@Message.Page_Home</a></li>
+                    <li><a href="@Url.Action("Logout", "Account")">@Message.Page_Logout</a></li>
+                    <li><a href="#">@ViewBag.User.VendorName</a></li>
+                    <li>
+                        <span class="v_line"></span><strong>@ViewBag.User.PersonName</strong>
+                        <a href="#ChangePWDialog"><span>@Message.Page_ChangePassword</span></a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <nav>
+            <ul>
+                <li><a href="@Url.Action("Print", "Barcode")"><span><i class="fas fa-barcode"></i></span> @Message.Page_BarcodePrint</a></li>
+                <li><a href="@Url.Action("List", "Barcode")"><span><i class="fas fa-clipboard-list"></i></span> @Message.Page_BarcodePrintList</a></li>
+                <li><a href="@Url.Action("Index","Notice")"><span><i class="far fa-calendar-check"></i></span> @Message.Page_Notice</a></li>
+                <li><a href="@Url.Action("Index","Board")"><span><i class="fas fa-chart-pie"></i></span> @Message.Page_TaskBoard</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <section id="dashboard">
+        <div class="container_wrap">
+
+            <div class="content_wrap">
+
+                <div class="content_tit_wrap">
+                    <h3 class="content_tit"><i class="fas fa-dot-circle"></i><span>@ViewBag.Title</span></h3>
+                    <div class="breadcrumb">
+                        <ul>
+                            <li><a href="@Url.Action("Index", "Home")"><i class="fas fa-home"></i></a></li>
+                            <li><span>@ViewBag.Title</span></li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="content_page bg_fff" ng-app="app" ng-cloak>
+                    @RenderBody()
+                </div>
+
+                <div class="footer">
+                    <div class="copyright">
+                        <p><img src="~/assets/img/common/footer_logo.png" alt="soul brain" /></p>
+                        <p class="en">COPYRIGHT &copy; 2018 soulbrain CO.,LTD. ALL RIGHTS RESERVED.</p>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    @Html.Partial("_ChangePWDialog")
+
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/jqueryui")
+    @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/bundles/angularjs")
+    @Scripts.Render("~/bundles/app")
+    <script type="text/javascript">
+        (function ($) {
+            $("#culture").on('change', function () {
+                $(this).parents("form").submit(); // post form
+            });
+            $('#ChangePWForm').on('submit', function (e) {
+                e.preventDefault();
+                if ($('#NewPassword').val() != $('#ConfirmPassword').val()) {
+                    alert('@Message.PW_MSG_RepeatPWCorrectly');
+                }
+                else {
+                    $.ajax({
+                        url: $('#ChangePWForm').attr('action'),
+                        data: $('#ChangePWForm').serialize(),
+                        type: 'POST',
+                        dataType: 'json',
+                        success: function (response) {
+                            if (response.status == 200) {
+                                alert(response.message)
+                                $('#ChangePWForm input').val('');
+                                window.location = "#close";
+                            }
+                            else {
+                                alert(response.message)
+                            }
+                        }
+                    })
+                }
+            })
+        })(jQuery);
+    </script>
+    @RenderSection("scripts", required: false)
+</body>
+</html>

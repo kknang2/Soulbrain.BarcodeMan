@@ -1,0 +1,73 @@
+﻿@model Soulbrain.BarcodeMan.Web.Models.Notice.NoticeDetail
+@{
+    ViewBag.Title = Message.Page_Notice;
+}
+
+<div class="button_wrap">
+    <a href="@Url.Action("Index")" class="btn_line"><i class="fas fa-list"></i> <span>@Message.Button_List</span></a>
+</div>
+
+<div class="data_grid_table mt10">
+    <table class="data_grid board board_view_01">
+        <tbody>
+            <tr>
+                <th>@Message.WebNotice_Title </th>
+                <th colspan="5" class="align_left board_view_tit"><span>@Model.WebNoticeDetail.Title</span></th>
+            </tr>
+            <tr>
+                <td colspan="6" class="align_left board_view_info">
+                    <span>@Message.WebNotice_CreatedDate : @Model.WebNoticeDetail.WriteDateString</span>
+                    <span>@Message.WebNotice_Creator : @Model.WebNoticeDetail.WriteID</span>
+                    <span>
+                        <input type="radio" @(!Model.WebNoticeDetail.IsImportant ? "checked" : "") name="noti_select" value="noti_default" disabled> @Message.Label_General
+                        <input type="radio" @(Model.WebNoticeDetail.IsImportant ? "checked" : "") name="noti_select" value="noti_impotant" disabled> @Message.Label_Important
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="6" class="align_left bold" style="padding:10px 40px; border:0;">@Message.WebNotice_Contents</td>
+            </tr>
+            <tr style="height:150px">
+                <td colspan="6" class="align_left board_view_content">
+                    @Model.WebNoticeDetail.Contents
+                </td>
+            </tr>
+            <tr>
+                <td colspan="6" class="align_left bold" style="padding:10px 40px; border:0;">@Message.WebNotice_AttachFile</td>
+            </tr>
+            <tr>
+                <td colspan="6" class="align_left board_view_file">
+
+                    <table cellpadding="0" cellspacing="0" class="board_view_content">
+                        <colgroup>
+                            <col width="10%">
+                            <col width="60%">
+                            <col width="30%">
+                        </colgroup>
+                        <tbody>
+                            <tr>
+                                <td>No</td>
+                                <td>@Message.WebNotice_AttachFile</td>
+                                <td>@Message.File_Note</td>
+                            </tr>
+                            @{ var index = 0; }
+                            @foreach (var item in Model.WebNoticeDetail.Attachments)
+                            {
+                                index++;
+                                <tr>
+                                    <td>@index</td>
+                                    <td>
+                                        <a href="@Url.Action("Download", new { fileName = item.FileName })">
+                                            @item.FileName
+                                        </a>
+                                    </td>
+                                    <td>@item.EtcDesc</td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>

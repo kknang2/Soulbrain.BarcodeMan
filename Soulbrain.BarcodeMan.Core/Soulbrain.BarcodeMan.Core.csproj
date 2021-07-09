@@ -1,0 +1,120 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{1598ECA8-9C3F-4A46-9A89-28C1960ACAA4}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Soulbrain.BarcodeMan</RootNamespace>
+    <AssemblyName>Soulbrain.BarcodeMan.Core</AssemblyName>
+    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <Deterministic>true</Deterministic>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="AutoMapper, Version=8.0.0.0, Culture=neutral, PublicKeyToken=be96cd2c38ef1005, processorArchitecture=MSIL">
+      <HintPath>..\packages\AutoMapper.8.0.0\lib\net461\AutoMapper.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.ValueTuple, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.ValueTuple.4.5.0\lib\net461\System.ValueTuple.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="AppConsts.cs" />
+    <Compile Include="DtoMapperConfig.cs" />
+    <Compile Include="Dtos\Comment\CommentKey.cs" />
+    <Compile Include="Dtos\MaterialType\MaterialTypeSelectItem.cs" />
+    <Compile Include="Dtos\MaterialGroup\MaterialGroupSelectItem.cs" />
+    <Compile Include="Dtos\PagedResult.cs" />
+    <Compile Include="Dtos\Product\PopupProductListFilter.cs" />
+    <Compile Include="Dtos\Product\PopupProductListItem.cs" />
+    <Compile Include="Dtos\WebBarCode\WebBarCodeID.cs" />
+    <Compile Include="Dtos\WebBarCode\WebBarCodeInput.cs" />
+    <Compile Include="Dtos\WebBarCode\WebBarCodeListFilter.cs" />
+    <Compile Include="Dtos\WebBarCode\WebBarCodeListItem.cs" />
+    <Compile Include="Dtos\Comment\CommentInput.cs" />
+    <Compile Include="Dtos\WebBoard\WebBoardDetail.cs" />
+    <Compile Include="Dtos\WebBoard\WebBoardID.cs" />
+    <Compile Include="Dtos\WebBoard\WebBoardListFilter.cs" />
+    <Compile Include="Dtos\WebBoard\WebBoardListItem.cs" />
+    <Compile Include="Dtos\WebNotice\WebNoticeDetail.cs" />
+    <Compile Include="Dtos\WebNotice\WebNoticeID.cs" />
+    <Compile Include="Dtos\WebNotice\WebNoticeListFilter.cs" />
+    <Compile Include="Dtos\WebNotice\WebNoticeListItem.cs" />
+    <Compile Include="Enums\StrBool.cs" />
+    <Compile Include="Enums\ExpDateCode.cs" />
+    <Compile Include="Enums\PrintType.cs" />
+    <Compile Include="Enums\UnitCode.cs" />
+    <Compile Include="Helpers\AuditInfo.cs" />
+    <Compile Include="Helpers\CultureHelper.cs" />
+    <Compile Include="Helpers\DocCodeHelper.cs" />
+    <Compile Include="SessionKeys.cs" />
+    <Compile Include="Authenticate\IAuthProvider.cs" />
+    <Compile Include="Authenticate\User.cs" />
+    <Compile Include="Domain\Entities\Auditing\IAudited.cs" />
+    <Compile Include="Domain\Entities\Auditing\ICreateAudited.cs" />
+    <Compile Include="Domain\Entities\Auditing\IHasCreateDate.cs" />
+    <Compile Include="Domain\Entities\Auditing\IHasModifyDate.cs" />
+    <Compile Include="Domain\Entities\Auditing\IModifyAudited.cs" />
+    <Compile Include="Domain\Entities\EntityAudited.cs" />
+    <Compile Include="Domain\Entities\EntityBase.cs" />
+    <Compile Include="Domain\Entities\IPassivable.cs" />
+    <Compile Include="Domain\MaterialGroup.cs" />
+    <Compile Include="Domain\MaterialType.cs" />
+    <Compile Include="Domain\Product.cs" />
+    <Compile Include="Domain\ProductVendor.cs" />
+    <Compile Include="Domain\Vendor.cs" />
+    <Compile Include="Domain\VendorP.cs" />
+    <Compile Include="Domain\WebBarCode.cs" />
+    <Compile Include="Domain\WebBoard.cs" />
+    <Compile Include="Domain\WebBoardComment.cs" />
+    <Compile Include="Domain\WebBoardFile.cs" />
+    <Compile Include="Domain\WebBoardSearchHistory.cs" />
+    <Compile Include="Domain\WebNotice.cs" />
+    <Compile Include="Domain\WebNoticeFile.cs" />
+    <Compile Include="Domain\WebNoticeSearchHistory.cs" />
+    <Compile Include="Logging\ILogger.cs" />
+    <Compile Include="Logging\Logger.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="..\Soulbrain.BarcodeMan.Resources\Soulbrain.BarcodeMan.Resources.csproj">
+      <Project>{4B7826FD-268B-4FB2-8C45-50CD978930B1}</Project>
+      <Name>Soulbrain.BarcodeMan.Resources</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>
