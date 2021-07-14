@@ -1,0 +1,98 @@
+﻿@{
+    ViewBag.Title = Message.Page_Notice;
+}
+@using PagedList.Mvc;
+@model Soulbrain.BarcodeMan.Web.Models.Notice.NoticeList
+
+<div class="content_page_top">
+
+    <div class="ctr_fs_wrap">
+        @using (Html.BeginForm("Index", "Notice", FormMethod.Get, new { id = "SearchForm", @class = "board_tit" }))
+        {
+            <label style="padding: 0 20px">@Message.WebNotice_Title</label>
+            <input name="title" type="text" value="@Model.Filter.Title" />
+
+            <button class="btn_line" style="margin-left:50px;"><i class="fas fa-search"></i> @Message.Button_Search</button>
+
+            <input type="hidden" id="pg-size" name="size" value="@Model.Filter.PageSize" />
+        }
+    </div>
+</div>
+
+<div class="content_page bg_fff">
+    <table class="data_grid board mt10">
+        <thead>
+            <colgroup>
+                <col width="5%"></col>
+                <col width="10%"></col>
+                <col width="55%"></col>
+                <col width="10%"></col>
+                <col width="10%"></col>
+                <col width="10%"></col>
+            </colgroup>
+            <tr>
+                <th>No</th>
+                <th>@Message.WebNotice_Mark</th>
+                <th>@Message.WebNotice_Title</th>
+                <th>@Message.WebNotice_AttachFile</th>
+                <th>@Message.WebNotice_CreatedDate</th>
+                <th>@Message.WebNotice_Creator</th>
+            </tr>
+        </thead>
+        <tbody>
+            @{ int index = 1; }
+            @foreach (var item in Model.WebNoticeListItems)
+            {
+                <tr>
+                    <td>@(index + (Model.WebNoticeListItems.PageNumber - 1) * Model.WebNoticeListItems.PageSize)</td>
+                    @if (item.IsImportant)
+                    {
+                        <td class="color_red"><i class="fas fa-exclamation-circle"></i></td>
+                    }
+                    else
+                    {
+                        <td></td>
+                    }
+                    <td>
+                        <a href="@Url.Action("Detail", "Notice", new { plantCode = item.PlantCode, docCode = item.DocCode })">
+                            @item.Title
+                        </a>
+                    </td>
+                    <td>
+                        @if (item.HasAttachment)
+                        {
+                            <i class="fas fa-file-alt"></i>
+                        }
+                    </td>
+                    <td>@item.WriteDateString</td>
+                    <td>@item.WriteID</td>
+                </tr>
+                index++;
+            }
+        </tbody>
+    </table>
+</div>
+<div class="clear"></div>
+<div class="button_wrap">
+    <label>@Message.Label_PageSize</label>
+    <select style="height:29px;width:80px;" id="pg-size-selector">
+        <option @(Model.Filter.PageSize.Equals(20) ? "selected" : "") value="20">20</option>
+        <option @(Model.Filter.PageSize.Equals(30) ? "selected" : "") value="30">30</option>
+        <option @(Model.Filter.PageSize.Equals(40) ? "selected" : "") value="40">40</option>
+    </select>
+</div>
+@Html.PagedListPager(Model.WebNoticeListItems, page => Url.Action("Index", new {
+    page,
+    size = Model.Filter.PageSize,
+    title = Model.Filter.Title
+}))
+@section Scripts {
+    <script>
+        $(function () {
+            $('#pg-size-selector').on('change', function () {
+                $('#pg-size').val($(this).val());
+                $('#SearchForm').submit();
+            });
+        });
+    </script>
+}

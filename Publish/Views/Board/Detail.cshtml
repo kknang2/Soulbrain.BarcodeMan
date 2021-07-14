@@ -1,0 +1,208 @@
+﻿@model Soulbrain.BarcodeMan.Web.Models.Board.BoardDetail
+@{
+    ViewBag.Title = Message.Page_TaskBoard;
+}
+
+
+<div class="button_wrap">
+    <a href="@Url.Action("Index")" class="btn_line"><i class="fas fa-list"></i> <span>@Message.Button_List</span></a>
+</div>
+
+<div class="data_grid_table mt10">
+    <table class="data_grid board board_view_01">
+        <tbody>
+            <tr>
+                <th>@Message.WebBoard_Title </th>
+                <th colspan="5" class="align_left board_view_tit"><span>@Model.WebBoardDetail.Title</span></th>
+            </tr>
+            <tr>
+                <td colspan="6" class="align_left board_view_info">
+                    <span>@Message.WebBoard_CreatedDate : @Model.WebBoardDetail.WriteDateString</span>
+                    <span>@Message.WebBoard_Creator : @Model.WebBoardDetail.WriteID</span>
+                    <span>
+                        <input type="radio" @(!Model.WebBoardDetail.IsImportant ? "checked" : "") name="noti_select" value="noti_default" disabled> @Message.Label_General
+                        <input type="radio" @(Model.WebBoardDetail.IsImportant ? "checked" : "") name="noti_select" value="noti_impotant" disabled> @Message.Label_Important
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="6" class="align_left bold" style="padding:10px 40px; border:0;">@Message.WebBoard_Contents</td>
+            </tr>
+            <tr style="height:150px">
+                <td colspan="6" class="align_left board_view_content">
+                    @Model.WebBoardDetail.Contents
+                </td>
+            </tr>
+            <tr>
+                <td colspan="6" class="align_left bold" style="padding:10px 40px; border:0;">@Message.WebBoard_AttachFile</td>
+            </tr>
+            <tr>
+                <td colspan="6" class="align_left board_view_file">
+
+                    <table cellpadding="0" cellspacing="0" class="board_view_content">
+                        <colgroup>
+                            <col width="10%">
+                            <col width="60%">
+                            <col width="30%">
+                        </colgroup>
+                        <tbody>
+                            <tr>
+                                <td>No</td>
+                                <td>@Message.WebNotice_AttachFile</td>
+                                <td>@Message.File_Note</td>
+                            </tr>
+                            @{ var index = 0; }
+                            @foreach (var item in Model.WebBoardDetail.Attachments)
+                            {
+                                index++;
+                                <tr>
+                                    <td>@index</td>
+                                    <td>
+                                        <a href="@Url.Action("Download", new { fileName = item.FileName })">
+                                            @item.FileName
+                                        </a>
+                                    </td>
+                                    <td>@item.EtcDesc</td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+<div class="comment_wrap">
+    <div class="comment_tit">
+        <h4>@Message.WebBoard_Comment</h4>
+    </div>
+    <div class="comment">
+        @using (Html.BeginForm("Comment", "Board", FormMethod.Post, new { id = "CommentForm" }))
+        {
+            <input type="hidden" name="PlantCode" id="PlantCode" value="@Model.CommentInput.PlantCode" />
+            <input type="hidden" name="DocCode" id="DocCode" value="@Model.CommentInput.DocCode" />
+            <input type="hidden" name="Seq" id="Seq" value="@Model.CommentInput.Seq" />
+
+            <label class="en">@Message.WebBoard_Comment</label>
+            <input type="text" name="Comment" id="Comment" required>
+            <button class="btn_line" id="ApplyButton"><i class="fas fa-check"></i> @Message.Button_Apply</button>
+        }
+
+        <div class="comment_list">
+            <ul id="result">
+                @foreach (var item in Model.WebBoardDetail.Comments.OrderByDescending(c => c.WriteDatetime).ToList())
+                {
+                    <li>
+                        <span>@item.Comment</span>
+                        <p>
+                            <span>@item.WriteID</span><span>@item.WriteDatetime.Value.ToString("yyyy-MM-dd")</span>
+                            @if (item.WriteID == ViewBag.User.PersonID)
+                            {
+                                <a class="EditButton btn_grey" data-seq="@item.Seq" href="#"><span>@Message.Button_Edit</span></a>
+                            }
+                            @if (item.WriteID == ViewBag.User.PersonID)
+                            {
+                                <a class="DeleteButton btn_grey" data-seq="@item.Seq" href="#"><span>@Message.Button_Delete</span></a>
+                            }
+                        </p>
+                    </li>
+                }
+            </ul>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        var currentCell;
+        var Edit = function (e) {
+            e.preventDefault();
+            currentCell = $(e.currentTarget).parent().prev();
+            $('#Comment').val(currentCell.text());
+            $('#Seq').val($(e.currentTarget).data('seq'));
+        }
+        var Delete = function (e) {
+            e.preventDefault();
+            currentCell = $(e.currentTarget).parent().parent();
+            data = {
+                Seq: $(e.currentTarget).data('seq'),
+                PlantCode: $('#PlantCode').val(),
+                DocCode: $('#DocCode').val()
+            };
+            $.ajax({
+                url: '@Url.Action("DeleteComment", "Board")',
+                type: 'POST',
+                dataType: 'json',
+                data: JSON.stringify(data),
+                contentType: 'application/json',
+                processData: false,
+                success: function (response) {
+                    if (response.status == 200) {
+                        currentCell.remove();
+                        $('#Comment').val('');
+                        $('#Seq').val('');
+                    }
+                }
+            });
+        }
+        $(function () {
+            $('.EditButton').on('click', Edit);
+            $('.DeleteButton').on('click', Delete);
+            $('#CommentForm').on('submit', function (e) {
+                e.preventDefault();
+                if ($('#Seq').val()) {
+                    $.ajax({
+                        url: '@Url.Action("Comment", "Board")',
+                        type: 'POST',
+                        dataType: 'json',
+                        data: $('#CommentForm').serialize(),
+                        success: function (response) {
+                            if (response.status == 200) {
+                                currentCell.html($('#Comment').val());
+                                $('#Comment').val('');
+                                $('#Seq').val('');
+                            }
+                        }
+                    })
+                }
+                else {
+                    var ul = $('#result');
+                    $.ajax({
+                        url: '@Url.Action("Comment", "Board")',
+                        type: 'POST',
+                        dataType: 'json',
+                        data: $('#CommentForm').serialize(),
+                        success: function (response) {
+                            if (response.status == 200) {
+                                var li = $('<li>');
+                                var editbtn = $('<a class="EditButton btn_grey" href="#">').append('<span>@Message.Button_Edit</span>');
+                                editbtn.data('seq', response.data.Seq);
+                                editbtn.on('click', Edit);
+                                var deletebtn = $('<a class="DeleteButton btn_grey" href="#">').append('<span>@Message.Button_Delete</span>');
+                                deletebtn.data('seq', response.data.Seq);
+                                deletebtn.on('click', Delete);
+                                var writeDate = Date.parse(response.data.WriteDatetime.split(" ")[0]);
+                                li.append($('<span>').html($('#Comment').val()))
+                                    .append(
+                                        $('<p>')
+                                        .append($('<span>').html(response.data.WriteID))
+                                        .append(" ")
+                                        .append($('<span>').html(writeDate.toString("yyyy-MM-dd")))
+                                        .append(" ")
+                                        .append(editbtn)
+                                        .append(" ")
+                                        .append(deletebtn)
+                                    );
+
+                                ul.prepend(li);
+                                $('#Comment').val('');
+                                $('#Seq').val('');
+                            }
+                        }
+                    })
+                }
+            })
+        });
+    </script>
+}

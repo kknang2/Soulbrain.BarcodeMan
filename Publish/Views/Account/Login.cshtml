@@ -1,0 +1,78 @@
+﻿@model Soulbrain.BarcodeMan.Web.Models.Account.Login
+@{
+    Layout = "~/Views/Shared/_Login.cshtml";
+    var culture = System.Threading.Thread.CurrentThread.CurrentUICulture.Name.ToLowerInvariant();
+}
+@helper selected(string c, string culture)
+{
+    if (c == culture)
+    {
+        @:selected
+    }
+}
+
+<section id="login" class="bg_01">
+    <div class="login_wrap">
+
+        <div class="ctr_login_wrap">
+            <div class="ctr_login_01">
+                <h1><img src="~/assets/img/common/logo.png" alt="soul brain" /></h1>
+                <p>@Message.ApplicationName</p>
+                <div>
+                    <p class="en">
+                        <span>
+                            System Info<br />
+                            <i class="fas fa-phone-square"></i> 041-840-1316~17<br />
+                            <i class="fas fa-envelope"></i> cgjung@soulbrain.co.kr<br />
+                            <i class="fas fa-envelope"></i> soh@soulbrain.co.kr
+                        </span>
+                    </p>
+                </div>
+            </div>
+
+            <div class="ctr_login_02">
+                @using (Html.BeginForm("SetCulture", "Home"))
+                {
+                    <select id="country" name="culture">
+                        <option value="ko-kr" @selected("ko-kr", culture)>KOR</option>
+                        <option value="en-us" @selected("en-us", culture)>ENG</option>
+                    </select>
+                    <input type="hidden" name="returnUrl" value="@Request.Url" />
+                }
+
+                @using (Html.BeginForm("Login", "Account", FormMethod.Post))
+                {
+                    @Html.HiddenFor(m => m.ReturnUrl)
+                    <div class="ctr_login_box">
+                        @Html.LabelFor(m => m.UserId, new { @class = "en" })
+                        @Html.TextBoxFor(m => m.UserId, new { @placeholder = Message.Login_UserID })
+                        @Html.ValidationMessageFor(m => m.UserId)
+
+                        @Html.LabelFor(m => m.Password, new { @class = "en" })
+                        @Html.PasswordFor(m => m.Password, new { @placeholder = Message.Login_Password })
+                        @Html.ValidationMessageFor(m => m.Password)
+
+                        <label class="id_check en">
+                            @Html.CheckBoxFor(m => m.RememberMe)
+                            <span>@Message.Login_RememberID</span>
+                        </label>
+
+                        <button type="submit" class="ctr_login_button en">@Message.Button_Login</button>
+                    </div>
+                }
+            </div>
+        </div>
+
+    </div>
+</section>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    <script type="text/javascript">
+        (function ($) {
+            $("#country").on('change', function () {
+                $(this).parents("form").submit(); // post form
+            });
+        })(jQuery);
+    </script>
+}

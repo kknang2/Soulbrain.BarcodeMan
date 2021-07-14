@@ -1,0 +1,36 @@
+﻿@using Soulbrain.BarcodeMan.Helpers
+<!doctype html>
+<html lang="@CultureHelper.GetCurrentNeutralCulture()" dir="@(CultureHelper.IsRighToLeft() ? "rtl" : "ltr")">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>soulbrain</title>
+
+    <!-- meta tag //-->
+    <meta name="viewport" content="width=device-width, initial-scale=0.5, maximum-scale=1.0" />
+    <meta charset="utf-8">
+    <meta name="robots" content="noindex,nofollow" />
+    <meta http-equiv='x-ua-compatible' content='ie=edge,chrome=1'>
+    <meta name="author" content="">
+    <meta name="description" content="">
+    <meta name="keywords" content="">
+    <meta name="robots" content="">
+    <meta property="og:type" content="">
+    <meta property="og:title" content="">
+    <meta property="og:description" content="">
+    <meta property="og:image" content="">
+    <meta property="og:url" content="">
+
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+    <link rel="shortcut icon" href="">
+
+    @Styles.Render("~/assets/css/style")
+    @Scripts.Render("~/bundles/modernizr")
+</head>
+
+<body>
+    @RenderBody()
+
+    @Scripts.Render("~/bundles/jquery")
+    @RenderSection("scripts", required: false)
+</body>
+</html>

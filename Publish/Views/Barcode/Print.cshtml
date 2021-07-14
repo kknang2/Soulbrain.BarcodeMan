@@ -1,0 +1,88 @@
+﻿@{
+    ViewBag.Title = Message.Page_BarcodePrint;
+}
+@model Soulbrain.BarcodeMan.Web.Models.Barcode.Print
+
+<div ng-controller="BarcodePrint" ng-init="
+     saveUrl='@Url.Action("Save", "Barcode")';
+     maker='@ViewBag.User.VendorName';
+     message={
+        supplyQty: '@Message.Barcode_SupplyQtyRequired',
+        lotNo: '@Message.Barcode_LotNoRequired',
+        productDate: '@Message.Barcode_ProductDateRequired',
+        expiryDate: '@Message.Barcode_ExpiryDateRequired',
+        supplyDate: '@Message.Barcode_SupplyDateRequired',
+        noSelection: '@Message.Text_NoSelection'
+     }
+     ">
+    <div class="button_wrap">
+        <a class="btn_line" ng-click="deleteSelectedRows()"><i class="fas fa-times"></i> <span>@Message.Button_Delete</span></a>
+        <a class="btn_line" advice="#pt_info" title="@Message.Page_ProductInfo"><i class="fas fa-plus"></i> <span>@Message.Button_AddProducts</span></a>
+        <a class="btn_line btn_grey" ng-click="printStockTable()"><i class="fas fa-print"></i> <span>@Message.Button_PrintStockTable</span></a>
+        <a class="btn_line btn_grey" ng-click="printBarcodeLabel()"><i class="fas fa-print"></i> <span>@Message.Button_PrintBarcodeLabel</span></a>
+    </div>
+    <div class="clear"></div>
+
+    <div class="data_grid_table mt10">
+
+        <table class="data_grid input-table">
+            <thead>
+                <tr>
+                    <th width="3%">@Message.Barcode_Check</th>
+                    <th width="25%">@Message.Product_ItemName</th>
+                    <th width="8%">@Message.Product_ItemCode</th>
+                    <th width="8%">@Message.Barcode_SupplyAmt</th>
+                    <th width="8%">@Message.Barcode_PackingAmt</th>
+                    <th width="8%">@Message.Product_Unit</th>
+                    <th width="8%">@Message.Barcode_LotNo</th>
+                    <th width="8%">@Message.Barcode_ManufacDate</th>
+                    <th width="8%">@Message.Barcode_ExpDate</th>
+                    <th width="8%">@Message.Barcode_SupplyDate</th>
+                    <th width="8%">@Message.Barcode_PrintQty</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="barcode in barcodes">
+                    <td>
+                        <input type="checkbox" id="barcode{{$index}}" class="css-checkbox" ng-model="barcode.checked">
+                        <label class="css-label" for="barcode{{$index}}"></label>
+                    </td>
+                    <td class="bg_02">
+                        {{ barcode.productName }}
+                    </td>
+                    <td class="bg_02">{{ barcode.productCode }}</td>
+                    <td style="position:relative">
+                        <input class="input align_right" id="supplyQty{{$index}}" ng-model="barcode.supplyQty" min="0" type="number" />
+                        <label class="input" for="supplyQty{{$index}}">{{ barcode.supplyQty | number }}</label>
+                    </td>
+                    @*<td class="bg_02">
+                        {{ barcode.packingQty|number }}
+                    </td>*@
+                    <td style="position:relative">
+                        <input class="input align_right" id="packingQty{{$index}}" ng-model="barcode.packingQty" min="0" type="number" />
+                        <label class="input" for="packingQty{{$index}}">{{ barcode.packingQty | number }}</label>
+                    </td>
+                    <td>
+                        @Html.DropDownList("PackingUnitCode", Model.UnitSelectList, Message.Text_Select, new { @class = "input", data_ng_model = "barcode.packingUnitCode" })
+                    </td>
+                    <td><input class="input" ng-model="barcode.lotNo" maxlength="10" /></td>
+                    <td><input class="input datepicker" ng-model="barcode.productDate" datepicker /></td>
+                    <td>
+                        @Html.DropDownList("ExpDateCode", Model.ExpDateSelectList, Message.Text_Select, new { @class = "input", data_ng_model = "barcode.expDateCode" })
+                    </td>
+                    <td><input class="input datepicker" ng-model="barcode.supplyDate" datepicker /></td>
+                    <td style="position:relative">
+                        <input class="input align_right" id="printQty{{$index}}" ng-model="barcode.printQty" min="1" type="number" />
+                        <label class="input" for="printQty{{$index}}">{{ barcode.printQty | number }}</label>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+@Html.Partial("_PopupProduct", Model.PopupProduct)
+@section Scripts {
+    @Scripts.Render("~/bundles/print")
+    @Scripts.Render("~/bundles/barcode")
+}

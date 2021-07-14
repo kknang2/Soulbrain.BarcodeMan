@@ -1,0 +1,63 @@
+﻿@model Soulbrain.BarcodeMan.Web.Models.Barcode.PopupProduct
+<div id="pt_info" style="display:none" ng-controller="PopupProduct"
+     ng-init="url='@Url.Action("PopupList", "Product")';getProducts();">
+    <div class="content_page_top" style="padding:10px 50px;">
+        @using (Html.BeginForm("PopupList", "Product", FormMethod.Post, new { @class = "ctr_fs_wrap" }))
+        {
+            <div class="w40">
+                @Html.LabelFor(m => m.Filter.MaterialGroupCode)
+                @Html.DropDownListFor(m => m.Filter.MaterialGroupCode, Model.MaterialGroupSelectList, Message.Text_All, new { data_ng_model = "filter.MaterialGroupCode" })
+            </div>
+
+            <div class="w40">
+                @Html.LabelFor(m => m.Filter.MaterialTypeCode)
+                @Html.DropDownListFor(m => m.Filter.MaterialTypeCode, Model.MaterialTypeSelectList, Message.Text_All, new { data_ng_model = "filter.MaterialTypeCode" })
+            </div>
+
+            <div class="w40">
+                @Html.LabelFor(m => m.Filter.ProductCode)
+                @Html.TextBoxFor(m => m.Filter.ProductCode, new { data_ng_model = "filter.ProductCode" })
+            </div>
+
+            <div class="w40">
+                @Html.LabelFor(m => m.Filter.ProductName)
+                @Html.TextBoxFor(m => m.Filter.ProductName, new { data_ng_model = "filter.ProductName" })
+            </div>
+
+            <button type="button" class="btn_line" style="width:130px" ng-click="getFilteredProducts()">
+                <i class="fas fa-search"></i> <span>@Message.Button_Search</span>
+            </button>
+
+            <button type="button" class="btn_line" style="margin-top:5px;width:130px" ng-click="addRows()">
+                <i class="fas fa-plus"></i> <span>@Message.Button_Add</span>
+            </button>
+        }
+    </div>
+    <div class="clear"></div>
+
+    <table class="table_style_01 mt10" style="width:849px;margin:0">
+        <thead>
+            <tr>
+                <th width="50px">@Message.Barcode_Check</th>
+                <th width="150px">@Message.Product_ItemCode</th>
+                <th>@Message.Product_ItemName</th>
+                <th width="100px">@Message.Product_Unit</th>
+            </tr>
+        </thead>
+    </table>
+    <div class="content_page_bottom" scrolly="getProducts()">
+        <table class="table_style_01" style="width:100%">
+            <tbody>
+                <tr ng-repeat="item in items">
+                    <td width="50px">
+                        <input type="checkbox" id="item{{$index}}" class="css-checkbox" ng-model="item.checked">
+                        <label class="css-label" for="item{{$index}}"></label>
+                    </td>
+                    <td width="150px">{{ item.productCode }}</td>
+                    <td>{{ item.productName }}</td>
+                    <td width="100px">{{ item.packingUnitCode }}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

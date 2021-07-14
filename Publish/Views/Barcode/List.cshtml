@@ -1,0 +1,410 @@
+﻿@{
+    ViewBag.Title = Message.Page_BarcodePrintList;
+}
+@using PagedList.Mvc;
+@model Soulbrain.BarcodeMan.Web.Models.Barcode.BarCodeListView
+
+@using (Html.BeginForm("List", "Barcode", FormMethod.Get, new { id = "SearchForm" }))
+{
+    <div class="button_wrap">
+        <button class="btn_line"><i class="fas fa-search"></i> <span>@Message.Button_Search</span></button>
+        <button type="button" class="btn_line" id="DeleteButton"><i class="fas fa-times"></i> <span>@Message.Button_DeleteRow</span></button>
+        <button type="button" class="btn_line" id="RePrintButton"><i class="fas fa-print"></i> <span>@Message.Button_RePrint</span></button>
+    </div>
+    <div class="w25 float_left">
+        <label>@Message.Barcode_ManufacDate</label>
+        <input id="from" class="datepicker" name="from" style="height:29px;width:120px;border:1px solid #a0a0a0;" value="@Model.Filter.ProductDateFromString" />
+        <input id="to" class="datepicker" name="to" style="height:29px;width:120px;border:1px solid #a0a0a0;" value="@Model.Filter.ProductDateToString" />
+    </div>
+
+    <div class="w20 float_left">
+        <label>@Message.Product_ItemName</label>
+        <input name="productName" style="height:29px;width:150px;" value="@Model.Filter.ProductName" />
+    </div>
+
+    <div class="w20 float_left">
+        <label>@Message.Barcode_LotNo</label>
+        <input name="lotNo" style="height:29px;width:150px;" value="@Model.Filter.LotNo" />
+    </div>
+
+    <input type="hidden" id="pg-size" name="size" value="@Model.Filter.PageSize" />
+}
+<div class="clear"></div>
+
+<div class="data_grid_table mt10">
+
+    <table class="data_grid">
+        <thead>
+            <tr>
+                <th style="width:50px">
+                    @Message.Barcode_Check
+                </th>
+                <th>
+                    @Html.ActionLink(Message.Barcode_PrintDate, "List", new {
+                        page = Model.Filter.PageNumber,
+                        from = Model.Filter.ProductDateFromString,
+                        to = Model.Filter.ProductDateToString,
+                        productName = Model.Filter.ProductName,
+                        lotNo = Model.Filter.LotNo,
+                        orderBy = Model.Filter.OrderBy == "PrintDatetime" ? "-PrintDatetime" : "PrintDatetime"
+                    })
+                    @if (Model.Filter.OrderBy == "PrintDatetime")
+                    {
+                        <i class="fa fa-angle-up"></i>
+                    }
+                    @if (Model.Filter.OrderBy == "-PrintDatetime")
+                    {
+                        <i class="fa fa-angle-down"></i>
+                    }
+                </th>
+                <th>
+                    @Html.ActionLink(Message.Barcode_PrintType, "List", new {
+                        page = Model.Filter.PageNumber,
+                        from = Model.Filter.ProductDateFromString,
+                        to = Model.Filter.ProductDateToString,
+                        productName = Model.Filter.ProductName,
+                        lotNo = Model.Filter.LotNo,
+                        orderBy = Model.Filter.OrderBy == "PrintType" ? "-PrintType" : "PrintType"
+                    })
+                    @if (Model.Filter.OrderBy == "PrintType")
+                    {
+                        <i class="fa fa-angle-up"></i>
+                    }
+                    @if (Model.Filter.OrderBy == "-PrintType")
+                    {
+                        <i class="fa fa-angle-down"></i>
+                    }
+                </th>
+                <th>
+                    @Html.ActionLink(Message.Product_ItemName, "List", new {
+                       page = Model.Filter.PageNumber,
+                       from = Model.Filter.ProductDateFromString,
+                       to = Model.Filter.ProductDateToString,
+                       productName = Model.Filter.ProductName,
+                       lotNo = Model.Filter.LotNo,
+                       orderBy = Model.Filter.OrderBy == "ProductName" ? "-ProductName" : "ProductName"
+                    })
+                    @if (Model.Filter.OrderBy == "ProductName")
+                    {
+                        <i class="fa fa-angle-up"></i>
+                    }
+                    @if (Model.Filter.OrderBy == "-ProductName")
+                    {
+                        <i class="fa fa-angle-down"></i>
+                    }
+                </th>
+                <th>
+                    @Html.ActionLink(Message.Barcode_SupplyAmt, "List", new {
+                       page = Model.Filter.PageNumber,
+                       from = Model.Filter.ProductDateFromString,
+                       to = Model.Filter.ProductDateToString,
+                       productName = Model.Filter.ProductName,
+                       lotNo = Model.Filter.LotNo,
+                       orderBy = Model.Filter.OrderBy == "SupplyQty" ? "-SupplyQty" : "SupplyQty"
+                    })
+                    @if (Model.Filter.OrderBy == "SupplyQty")
+                    {
+                        <i class="fa fa-angle-up"></i>
+                    }
+                    @if (Model.Filter.OrderBy == "-SupplyQty")
+                    {
+                        <i class="fa fa-angle-down"></i>
+                    }
+                </th>
+                <th>
+                    @Html.ActionLink(Message.Barcode_PackingAmt, "List", new {
+                       page = Model.Filter.PageNumber,
+                       from = Model.Filter.ProductDateFromString,
+                       to = Model.Filter.ProductDateToString,
+                       productName = Model.Filter.ProductName,
+                       lotNo = Model.Filter.LotNo,
+                       orderBy = Model.Filter.OrderBy == "PackingQty" ? "-PackingQty" : "PackingQty"
+                    })
+                    @if (Model.Filter.OrderBy == "PackingQty")
+                    {
+                        <i class="fa fa-angle-up"></i>
+                    }
+                    @if (Model.Filter.OrderBy == "-PackingQty")
+                    {
+                        <i class="fa fa-angle-down"></i>
+                    }
+                </th>
+                <th>
+                    @Html.ActionLink(Message.Product_Unit, "List", new {
+                       page = Model.Filter.PageNumber,
+                       from = Model.Filter.ProductDateFromString,
+                       to = Model.Filter.ProductDateToString,
+                       productName = Model.Filter.ProductName,
+                       lotNo = Model.Filter.LotNo,
+                       orderBy = Model.Filter.OrderBy == "PackingUnitCode" ? "-PackingUnitCode" : "PackingUnitCode"
+                    })
+                    @if (Model.Filter.OrderBy == "PackingUnitCode")
+                    {
+                        <i class="fa fa-angle-up"></i>
+                    }
+                    @if (Model.Filter.OrderBy == "-PackingUnitCode")
+                    {
+                        <i class="fa fa-angle-down"></i>
+                    }
+                </th>
+                <th>
+                    @Html.ActionLink(Message.Barcode_LotNo, "List", new {
+                       page = Model.Filter.PageNumber,
+                       from = Model.Filter.ProductDateFromString,
+                       to = Model.Filter.ProductDateToString,
+                       productName = Model.Filter.ProductName,
+                       lotNo = Model.Filter.LotNo,
+                       orderBy = Model.Filter.OrderBy == "LotNo" ? "-LotNo" : "LotNo"
+                    })
+                    @if (Model.Filter.OrderBy == "LotNo")
+                    {
+                        <i class="fa fa-angle-up"></i>
+                    }
+                    @if (Model.Filter.OrderBy == "-LotNo")
+                    {
+                        <i class="fa fa-angle-down"></i>
+                    }
+                </th>
+                <th>
+                    @Html.ActionLink(Message.Barcode_ManufacDate, "List", new {
+                       page = Model.Filter.PageNumber,
+                       from = Model.Filter.ProductDateFromString,
+                       to = Model.Filter.ProductDateToString,
+                       productName = Model.Filter.ProductName,
+                       lotNo = Model.Filter.LotNo,
+                       orderBy = Model.Filter.OrderBy == "ProductDate" ? "-ProductDate" : "ProductDate"
+                    })
+                    @if (Model.Filter.OrderBy == "ProductDate")
+                    {
+                        <i class="fa fa-angle-up"></i>
+                    }
+                    @if (Model.Filter.OrderBy == "-ProductDate")
+                    {
+                        <i class="fa fa-angle-down"></i>
+                    }
+                </th>
+                <th>
+                    @Html.ActionLink(Message.Barcode_ExpDate, "List", new {
+                       page = Model.Filter.PageNumber,
+                       from = Model.Filter.ProductDateFromString,
+                       to = Model.Filter.ProductDateToString,
+                       productName = Model.Filter.ProductName,
+                       lotNo = Model.Filter.LotNo,
+                       orderBy = Model.Filter.OrderBy == "ExpDateCode" ? "-ExpDateCode" : "ExpDateCode"
+                    })
+                    @if (Model.Filter.OrderBy == "ExpDateCode")
+                    {
+                        <i class="fa fa-angle-up"></i>
+                    }
+                    @if (Model.Filter.OrderBy == "-ExpDateCode")
+                    {
+                        <i class="fa fa-angle-down"></i>
+                    }
+                </th>
+                <th>
+                    @Html.ActionLink(Message.Barcode_SupplyDate, "List", new {
+                       page = Model.Filter.PageNumber,
+                       from = Model.Filter.ProductDateFromString,
+                       to = Model.Filter.ProductDateToString,
+                       productName = Model.Filter.ProductName,
+                       lotNo = Model.Filter.LotNo,
+                       orderBy = Model.Filter.OrderBy == "SupplyDate" ? "-SupplyDate" : "SupplyDate"
+                    })
+                    @if (Model.Filter.OrderBy == "SupplyDate")
+                    {
+                        <i class="fa fa-angle-up"></i>
+                    }
+                    @if (Model.Filter.OrderBy == "-SupplyDate")
+                    {
+                        <i class="fa fa-angle-down"></i>
+                    }
+                </th>
+                <th>
+                    @Html.ActionLink(Message.Barcode_PrintQty, "List", new {
+                       page = Model.Filter.PageNumber,
+                       from = Model.Filter.ProductDateFromString,
+                       to = Model.Filter.ProductDateToString,
+                       productName = Model.Filter.ProductName,
+                       lotNo = Model.Filter.LotNo,
+                       orderBy = Model.Filter.OrderBy == "PrintQty" ? "-PrintQty" : "PrintQty"
+                    })
+                    @if (Model.Filter.OrderBy == "PrintQty")
+                    {
+                        <i class="fa fa-angle-up"></i>
+                    }
+                    @if (Model.Filter.OrderBy == "-PrintQty")
+                    {
+                        <i class="fa fa-angle-down"></i>
+                    }
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.WebBarCodeListItems)
+            {
+                <tr>
+                    <td>
+                        <input type="checkbox" id="barcode@(item.DocCode)" class="css-checkbox checkedBarcode"
+                               data-plant-code="@item.PlantCode"
+                               data-doc-code="@item.DocCode"
+                               data-vendor-code="@item.VendorCode"
+                               data-print-type="@item.PrintType"
+                               data-product-code="@item.ProductCode"
+                               data-print-date="@item.PrintDateString"
+                               data-product-name="@item.ProductName"
+                               data-supply-qty="@item.SupplyQty"
+                               data-packing-qty="@item.PackingQty"
+                               data-packing-unit-code="@item.PackingUnitCode"
+                               data-lot-no="@item.LotNo"
+                               data-product-date="@item.ProductDateString"
+                               data-exp-date-code="@item.ExpDateCode"
+                               data-supply-date="@item.SupplyDateString"
+                               data-print-qty="@item.PrintQty">
+                        <label class="css-label" for="barcode@(item.DocCode)"></label>
+                    </td>
+                    <td>@item.PrintDateString</td>
+                    <td>@item.PrintTypeString</td>
+                    <td>@item.ProductName</td>
+                    <td class="align_right">@item.FormattedSupplyQty</td>
+                    <td class="align_right">@item.FormattedPackingQty</td>
+                    <td>@item.PackingUnitCode</td>
+                    <td>@item.LotNo</td>
+                    <td>@item.ProductDateString</td>
+                    <td>@item.ExpiryDate</td>
+                    <td>@item.SupplyDateString</td>
+                    <td class="align_right">@item.PrintQty</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+<div class="clear"></div>
+<div class="float_right">
+    <label>@Message.Label_PageSize</label>
+    <select style="height:29px;width:80px;" id="pg-size-selector">
+        <option @(Model.Filter.PageSize.Equals(20) ? "selected" : "") value="20">20</option>
+        <option @(Model.Filter.PageSize.Equals(30) ? "selected" : "") value="30">30</option>
+        <option @(Model.Filter.PageSize.Equals(40) ? "selected" : "") value="40">40</option>
+    </select>
+</div>
+@Html.PagedListPager(Model.WebBarCodeListItems, page => Url.Action("List", new {
+    page,
+    size = Model.Filter.PageSize,
+    from = Model.Filter.ProductDateFromString,
+    to = Model.Filter.ProductDateToString,
+    productName = Model.Filter.ProductName,
+    lotNo = Model.Filter.LotNo,
+    orderBy = Model.Filter.OrderBy
+}))
+
+@section Scripts {
+    @Scripts.Render("~/bundles/print")
+    <script>
+        $(function () {
+            $('#pg-size-selector').on('change', function () {
+                $('#pg-size').val($(this).val());
+                $('#SearchForm').submit();
+            });
+            $('#from').datepicker({
+                onClose: function (selectedDate) {
+                    $("#to").datepicker("option", "minDate", selectedDate);
+                }
+            });
+            $('#to').datepicker({
+                onClose: function (selectedDate) {
+                    $("#from").datepicker("option", "maxDate", selectedDate);
+                }
+            });
+            $('#DeleteButton').on('click', function () {
+                var keys = [];
+
+                $('.checkedBarcode').each(function () {
+                    if ($(this).prop('checked')) {
+                        keys.push({
+                            PlantCode: $(this).data('plant-code'),
+                            DocCode: $(this).data('doc-code')
+                        })
+                    }
+                });
+
+                if (keys.length == 0) {
+                    return;
+                }
+
+                if (!confirm('@Message.WebBarCode_ConfirmDelete')) {
+                    return;
+                }
+
+                $.ajax({
+                    contentType: 'application/json',
+                    data: JSON.stringify(keys),
+                    dataType: 'json',
+                    success: function (data) {
+                        if (data.status == 200) {
+                            location.reload();
+                        }
+                    },
+                    error: function () {},
+                    processData: false,
+                    type: 'POST',
+                    url: '@Url.Action("Delete", "Barcode")'
+                });
+            })
+            $('#RePrintButton').on('click', function () {
+                var html = '';
+                $('.checkedBarcode').each(function () {
+                    if ($(this).prop('checked')) {
+                        if ($(this).data('print-type') == 'B') {
+                            var img = BarcodeLabelContent({
+                                vendorCode: $(this).data('vendor-code'),
+                                productDate: $(this).data('product-date'),
+                                productCode: $(this).data('product-code'),
+                                lotNo: $(this).data('lot-no'),
+                                packingQty: $(this).data('packing-qty'),
+                                unitCode: $(this).data('packing-unit-code'),
+                                expDateCode: $(this).data('exp-date-code')
+                            });
+                            console.log(img);
+                            for (var i = 0; i < $(this).data('print-qty'); i++) {
+                                html += img[0].outerHTML;
+                            }
+                        } else if ($(this).data('print-type') == 'S') {
+                            var table = StockTableContent({
+                                vendorCode: $(this).data('vendor-code'),
+                                productName: $(this).data('product-name'),
+                                packingQty: $(this).data('packing-qty'),
+                                unitCode: $(this).data('packing-unit-code'),
+                                lotNo: $(this).data('lot-no'),
+                                productDate: $(this).data('product-date'),
+                                expDateCode: $(this).data('exp-date-code'),
+                                supplyDate: $(this).data('supply-date'),
+                                maker: '@ViewBag.User.VendorName'
+                            });
+                            for (var i = 0; i < $(this).data('print-qty'); i++) {
+                                html += table[0].outerHTML;
+                            }
+                        }
+                    }
+                });
+                var WinPrint = window.open('', '', 'left=0,top=0,width=800,height=900,toolbar=0,scrollbars=0,status=0');
+                $.ajax({
+                    contentType: 'application/json',
+                    dataType: 'json',
+                    success: function (data) {
+                        if (data.status == 200) {
+                            WinPrint.document.write(html);
+                            WinPrint.document.close();
+                            WinPrint.focus();
+                            WinPrint.print();
+                            WinPrint.close();
+                        }
+                    },
+                    error: function () {},
+                    processData: false,
+                    type: 'POST',
+                    url: '@Url.Action("Check", "Barcode")'
+                });
+            });
+        })
+    </script>
+}
