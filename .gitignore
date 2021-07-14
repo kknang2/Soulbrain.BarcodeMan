@@ -8,8 +8,6 @@
 /Soulbrain.BarcodeMan.EntityFramework/*.user
 /Soulbrain.BarcodeMan.Web/bin
 /Soulbrain.BarcodeMan.Web/obj
-/Soulbrain.BarcodeMan.Web/Content
-/Soulbrain.BarcodeMan.Web/Scripts
 /Soulbrain.BarcodeMan.Web/Properties/PublishProfiles
 /Soulbrain.BarcodeMan.Web/*.user
 /Soulbrain.BarcodeMan.Test/bin
